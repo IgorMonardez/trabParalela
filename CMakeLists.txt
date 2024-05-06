@@ -5,6 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 find_package(MPI REQUIRED)
 
-add_executable(trab1 mpi_primos.c)
+add_executable(trab1 primos_recv_send.c)
 
 target_link_libraries(trab1 PRIVATE MPI::MPI_C)

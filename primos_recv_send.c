@@ -35,8 +35,7 @@ int main(int argc, char *argv[]) {
 	{	
 		if(primo(i) == 1) cont++;
 	}
-    t_final = MPI_Wtime();
-    printf("Tempo de execucao do processo %d: %1.10f \n", meu_ranque, t_final - t_inicial);
+
 	if(num_procs > 1) {
         if(meu_ranque == 0) {
             total = cont;
@@ -48,16 +47,14 @@ int main(int argc, char *argv[]) {
         else {
             MPI_Send(&cont, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
         }
-//		MPI_Reduce(&cont, &total, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 	} else {
 		total = cont;
 	}
-
-
-
+    t_final = MPI_Wtime();
 	if (meu_ranque == 0) {
         total += 1;    /* Acrescenta o dois, que também é primo */
 		printf("Quant. de primos entre 1 e %ld: %d \n", n, total);
+        printf("Tempo de execução: %1.10f \n", t_final - t_inicial);
 	}
 
 
