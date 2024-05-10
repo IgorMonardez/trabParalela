@@ -17,7 +17,8 @@ int main(int argc, char *argv[]) {
     int cont = 0, total = 0;
     long int i, n;
     int meu_ranque, num_procs, inicio, salto;
-    MPI_Request pedido_envia;
+    MPI_Request request;
+
     if (argc < 2) {
         printf("Valor inválido! Entre com um valor do maior inteiro\n");
         return 0;
@@ -40,7 +41,8 @@ int main(int argc, char *argv[]) {
         if(meu_ranque == 0) {
             total = cont;
             for(int origem = 1; origem < num_procs; origem++) {
-                MPI_Irecv(&cont, 1, MPI_INT, origem, 1, MPI_COMM_WORLD, &pedido_envia);
+                MPI_Irecv(&cont, 1, MPI_INT, origem, 1, MPI_COMM_WORLD, &request);
+                MPI_Wait(&request, MPI_STATUS_IGNORE);
                 total += cont;
             }
         }
@@ -50,14 +52,15 @@ int main(int argc, char *argv[]) {
     } else {
         total = cont;
     }
+
     t_final = MPI_Wtime();
+
     if (meu_ranque == 0) {
         total += 1;    /* Acrescenta o dois, que também é primo */
-        printf("Quant. de primos entre 1 e %ld: %d \n", n, total);
-        printf("Tempo de execução: %1.10f \n", t_final - t_inicial);
+        printf("Quant. de primos entre 1 e n: %d \n", total);
     }
 
-
+    printf("Processo %d gastou %1.3f segundos.\n", meu_ranque, t_final - t_inicial);
     MPI_Finalize();
     return(0);
 }
