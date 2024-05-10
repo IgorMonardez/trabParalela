@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
             }
         }
         else {
-            MPI_Ssend(&cont, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
+            MPI_Rsend(&cont, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
         }
     } else {
         total = cont;
@@ -57,8 +57,8 @@ int main(int argc, char *argv[]) {
     t_final = MPI_Wtime();
     if (meu_ranque == 0) {
         total += 1;    /* Acrescenta o dois, que também é primo */
-        printf("Quant. de primos entre 1 e %ld: %d \n", n, total);
-        printf("Tempo de execucao: %1.10f \n", t_final - t_inicial);
+        printf("Quant. de recv entre 1 e %ld: %d \n", n, total);
+        printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);
     }
 
 

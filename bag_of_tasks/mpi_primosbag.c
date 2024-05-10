@@ -1,4 +1,4 @@
-#include <stdio.h>
+include <stdio.h>
 #include <stdlib.h>
 #include "mpi.h"
 #include <math.h>
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
 	if (meu_ranque == 0) {
 		t_final = MPI_Wtime();
         total += 1;    /* Acrescenta o 2, que é primo */
-		printf("Quant. de primos entre 1 e %d: %d \n", n, total);
+		printf("Quant. de recv entre 1 e %d: %d \n", n, total);
 		printf("Tempo de execucao: %1.10f \n", t_final - t_inicial);
 	}
 /* Finaliza o programa */

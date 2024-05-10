@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     t_final = MPI_Wtime();
 	if (meu_ranque == 0) {
         total += 1;    /* Acrescenta o dois, que também é primo */
-		printf("Quant. de primos entre 1 e %ld: %d \n", n, total);
+		printf("Quant. de recv entre 1 e %ld: %d \n", n, total);
         printf("Tempo de execução: %1.10f \n", t_final - t_inicial);
 	}
 
