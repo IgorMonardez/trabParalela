@@ -1,4 +1,4 @@
-include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "mpi.h"
 #include <math.h>
@@ -41,6 +41,10 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
         for (dest=1, inicio=3; dest < num_procs && inicio < n; dest++, inicio += TAMANHO) {
             MPI_Send(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
         }
+        if (dest < num_procs && inicio > n) {
+            for(i = dest; i < num_procs; i++)
+                MPI_Send(&inicio, 1, MPI_INT, i, tag, MPI_COMM_WORLD);
+        }
         /* Fica recebendo as contagens parciais de cada processo */
         while (stop < (num_procs-1)) {
 		    MPI_Recv(&cont, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &estado);
@@ -63,11 +67,8 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
                 for (i = inicio, cont=0; i < (inicio + TAMANHO) && i < n; i+=2) 
 		            if (primo(i) == 1)
                         cont++;
-                if(inicio > n)
-                    MPI_Send(0, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
-                else
-                    /* Envia a contagem parcial para o processo mestre */
-                    MPI_Send(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
+                /* Envia a contagem parcial para o processo mestre */
+                MPI_Send(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
             } 
         } 
         /* Registra o tempo final de execução */
