@@ -16,15 +16,13 @@ int main(int argc, char *argv[]) {
     double t_inicio, t_fim;
     int threads;
     long int i, n, total=0;
-    printf("Número de threads: \n");
-    scanf("%d", &threads);
-    omp_set_num_threads(threads);
 
     if (argc < 2) {
         printf("Valor inválido! Entre com o valor do maior inteiro\n");
         return 0;
     } else {
         n = strtol(argv[1], (char **) NULL, 10);
+        threads = strtol(argv[2], (char **) NULL, 10);
     }
     t_inicio = omp_get_wtime();
 #pragma omp parallel for reduction(+:total) schedule(dynamic,1000) num_threads(threads)

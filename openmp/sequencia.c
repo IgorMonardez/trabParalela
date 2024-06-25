@@ -14,7 +14,6 @@ int primo (long int n) { /* mpi_primos.c  */
 
 int main(int argc, char *argv[]) {
     double t_inicio, t_fim;
-    int threads;
     long int i, n, total=0;
 
     if (argc < 2) {
@@ -22,12 +21,8 @@ int main(int argc, char *argv[]) {
         return 0;
     } else {
         n = strtol(argv[1], (char **) NULL, 10);
-        threads = strtol(argv[2], (char **) NULL, 10);
     }
-
     t_inicio = omp_get_wtime();
-
-#pragma omp parallel for reduction(+:total) schedule(static) num_threads(threads)
     for (i = 3; i <= n; i += 2)
         if(primo(i) == 1) total++;
 
