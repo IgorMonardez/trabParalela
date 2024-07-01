@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     t_inicio = omp_get_wtime();
 
-#pragma omp parallel for reduction(+:total) schedule(static) num_threads(threads)
+#pragma omp parallel for reduction(+:total) schedule(static, 1000) num_threads(threads)
     for (i = 3; i <= n; i += 2)
         if(primo(i) == 1) total++;
 
